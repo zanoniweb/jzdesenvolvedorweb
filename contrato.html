@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SISTEMA DE GERAÇÃO DE CONTRATOS: Serviços de Programação</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+    
+<style>
+     * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    :root {
+        --primary-color: #004080;
+        --accent-color: #28a745;
+        --accent-dark-color: #1e7e34;
+        --text-color: #333;
+        --light-text-color: #555;
+        --background-color: #f4f4f4;
+        --container-bg-color: #fff;
+        --section-bg-color: #f9f9f9;
+        --border-color: #ccc;
+        --light-border-color: #ddd;
+        --font-family-main: 'Arial', sans-serif;
+        --font-family-document: 'Times New Roman', serif;
+        --font-size-base: 1rem;
+        --font-size-sm: 0.9rem;
+        --font-size-md: 1.1rem;
+        --font-size-lg: 1.6rem;
+        --font-size-xl: 2em;
+        --font-size-h1: 1.8rem;
+        --font-size-h2: 1.5rem;
+        --font-size-notification-title: 1.8rem;
+        --font-size-document-base: 12pt;
+        --font-size-document-title: 16pt;
+        --spacing-xs: 8px;
+        --spacing-sm: 10px;
+        --spacing-md: 15px;
+        --spacing-lg: 20px;
+        --spacing-xl: 30px;
+        --spacing-xxl: 40px;
+    }
+
+    body {
+        font-family: var(--font-family-main);
+        line-height: 1.6;
+        margin: 0;
+        padding-top: 80px;
+        background-color: var(--background-color);
+        color: var(--text-color);
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+
+    .container {
+        max-width: 800px;
+        width: 95%;
+        margin: var(--spacing-lg) auto;
+        padding: var(--spacing-xl);
+        background-color: var(--container-bg-color);
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+        text-align: center;
+        color: var(--accent-dark-color);
+        margin-bottom: var(--spacing-xl);
+        font-size: var(--font-size-h1);
+    }
+
+    .form-section {
+        margin-bottom: var(--spacing-lg);
+        padding: var(--spacing-md);
+        border: 1px solid var(--light-border-color);
+        border-radius: 5px;
+        background-color: var(--section-bg-color);
+    }
+
+    .form-section h2 {
+        color: var(--accent-dark-color);
+        margin-top: 0;
+        margin-bottom: var(--spacing-md);
+        border-bottom: 2px solid #eee;
+        padding-bottom: var(--spacing-xs);
+        font-size: var(--font-size-h2);
+    }
+
+    label {
+        display: block;
+        margin-bottom: var(--spacing-xs);
+        font-weight: bold;
+        color: var(--light-text-color);
+        cursor: pointer;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="date"],
+    input[type="number"],
+    input[type="tel"],
+    select,
+    textarea {
+        width: 100%;
+        padding: var(--spacing-sm);
+        margin-bottom: var(--spacing-md);
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
+        font-size: var(--font-size-base);
+        box-sizing: border-box;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+    }
+
+    input[type="date"],
+    input[type="time"] {
+        padding: var(--spacing-sm) 10px;
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="date"]:focus,
+    input[type="number"]:focus,
+    input[type="tel"]:focus,
+    input[type="time"]:focus,
+    select:focus,
+    textarea:focus {
+        border-color: var(--accent-color);
+        outline: none;
+        box-shadow: 0 0 5px rgba(40, 167, 69, 0.25);
+        outline: 2px solid var(--accent-color);
+        outline-offset: 2px;
+    }
+
+    select {
+        padding-right: var(--spacing-xl);
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23333' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 10px center;
+        background-size: 16px;
+    }
+
+    button {
+        display: block;
+        width: 100%;
+        padding: var(--spacing-md);
+        background-color: var(--accent-color);
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: var(--font-size-md);
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.1s ease;
+        margin-top: var(--spacing-lg);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    button:hover {
+        background-color: var(--accent-dark-color);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    button:active {
+        transform: translateY(0);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    }
+
+    hr {
+        border: 0;
+        height: 1px;
+        background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+        margin: var(--spacing-xl) 0;
+    }
+
+    .navbar {
+        background-color: var(--primary-color);
+        color: white;
+        padding: var(--spacing-lg) var(--spacing-xl);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+    }
+
+    .logo p {
+        color: white;
+        font-size: var(--font-size-lg);
+        font-weight: bold;
+    }
+
+    .logo img {
+        height: 30px; /* Ajuste a altura da imagem conforme necessário */
+        vertical-align: middle;
+    }
+
+    .menu ul {
+        list-style: none;
+        display: flex;
+        gap: 50px;
+        margin: 0;
+        padding: 0;
+    }
+
+    .menu ul li a {
+        color: white;
+        text-decoration: none;
+        font-size: var(--font-size-md);
+        transition: color 0.3s, background-color 0.3s;
+        padding: var(--spacing-xs) 0;
+        display: block;
+    }
+
+    .menu ul li a:hover,
+    .menu ul li a:focus {
+        color: #ffd700;
+        outline: none;
+    }
+
+    .menu-icon {
+        font-size: var(--font-size-xl);
+        display: none;
+        cursor: pointer;
+        color: white;
+        outline: 2px solid transparent;
+        outline-offset: 4px;
+        transition: outline-color 0.3s ease;
+    }
+
+    .menu-icon:focus {
+        outline-color: #ffd700;
+    }
+
+    .menu-toggle {
+        display: none;
+    }
+    
+    #parcelamentoContainer, #formaPagamentoContainer {
+        display: none;
+    }
+    
+    #parcelamentoContainer .input-group {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 15px;
+    }
+    
+    #parcelamentoContainer .input-group > div {
+        flex: 1;
+    }
+
+    @media (max-width: 768px) {
+        body { padding-top: 65px; }
+        .navbar { padding: var(--spacing-md) var(--spacing-lg); }
+        .logo p { font-size: 1.4em; }
+        .menu {
+            position: absolute;
+            top: 65px;
+            left: 0;
+            background-color: var(--primary-color);
+            width: 100%;
+            display: none;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            max-height: calc(100vh - 65px);
+            overflow-y: auto;
+        }
+        .menu ul {
+            flex-direction: column;
+            gap: 0;
+        }
+        .menu ul li {
+            padding: var(--spacing-md) var(--spacing-xl);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .menu ul li:first-child { border-top: none; }
+        .menu-icon { display: block; }
+        .menu-toggle:checked ~ .menu { display: block; }
+        .container { padding: var(--spacing-lg); margin: var(--spacing-lg) auto; }
+        h1 { font-size: 1.5rem; margin-bottom: var(--spacing-lg); }
+        .form-section h2 { font-size: 1.3rem; margin-bottom: var(--spacing-md); }
+        input[type="text"], input[type="email"], input[type="date"], input[type="number"], input[type="tel"], select, textarea {
+            font-size: var(--font-size-base);
+            padding: var(--spacing-sm);
+        }
+        button { font-size: var(--font-size-base); padding: var(--spacing-sm); }
+    }
+
+    @media (max-width: 480px) {
+        .navbar { padding: var(--spacing-sm) var(--spacing-md); }
+        .logo p { font-size: 1.2em; }
+        .menu { top: 55px; max-height: calc(100vh - 55px); }
+        .menu ul li { padding: var(--spacing-md) var(--spacing-lg); }
+        .container { padding: var(--spacing-md); margin: var(--spacing-lg) auto; }
+        h1 { font-size: 1.3rem; }
+        .form-section h2 { font-size: 1.2rem; }
+    }
+
+    .contract-template {
+        display: none;
+        padding: 50px;
+        box-sizing: border-box;
+        width: 210mm;
+        min-height: 297mm;
+        background-color: var(--container-bg-color);
+        font-family: var(--font-family-document);
+        font-size: var(--font-size-document-base);
+        position: relative;
+        color: var(--text-color);
+        line-height: 1.5;
+    }
+    
+    .contract-title {
+        text-align: center;
+        font-size: 18pt;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    .contract-section-title {
+        font-size: 14pt;
+        font-weight: bold;
+        margin-top: 20px;
+        margin-bottom: 10px;
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 5px;
+    }
+
+    .contract-text {
+        text-align: justify;
+        margin-bottom: 15px;
+    }
+    
+    .signature-section {
+        margin-top: 60px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .signature-line {
+        width: 70%;
+        margin: 0 auto 5px;
+        border-bottom: 1px solid #000;
+    }
+
+    .signature-label {
+        font-size: 10pt;
+        font-style: italic;
+    }
+</style>
+
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo">
+            <i>
+            <h2 style="color: white;">Juliano <img src="./img/zanoni.1.png" alt="Logo Juliano Zanoni"></h2>
+            </i>
+        </div>
+        <input type="checkbox" id="menu-toggle" class="menu-toggle">
+        <label for="menu-toggle" class="menu-icon" aria-label="Abrir Menu">&#9776;</label>
+        
+<nav class="menu">
+    <ul>
+        <li><a href="index.html">Desenvolvedor</a></li>
+        <li><a href="contato.html">Contato</a></li>
+        <li><a href="formacao.html">Formações Profissionais</a></li>
+        <li><a href="projetos.html">Projetos</a></li>
+        <li><a href="sobremim.html">Sobre Mim</a></li>
+    </ul>
+</nav>
+
+    </header>
+
+    <div class="container">
+        <h1>Gerador de Contrato de Serviços de Programação</h1>
+
+        <div class="form-section">
+            <h2>Dados do Vendedor</h2>
+            <label for="vendedorNome">Razão Social / Nome Completo:</label>
+            <input type="text" id="vendedorNome" placeholder="Ex: Sua Empresa de Tecnologia Ltda." required>
+
+            <label for="vendedorCNPJ">CNPJ / CPF:</label>
+            <input type="text" id="vendedorCNPJ" placeholder="Ex: 00.000.000/0001-00 ou 123.456.789-00" required>
+            
+            <label for="vendedorEndereco">Endereço Completo:</label>
+            <input type="text" id="vendedorEndereco" placeholder="Ex: Rua Vendedora, 123, Cidade, Estado" required>
+
+            <label for="vendedorEmail">E-mail:</label>
+            <input type="email" id="vendedorEmail" placeholder="contato@suaempresa.com" required>
+
+            <label for="vendedorTelefone">Telefone:</label>
+            <input type="tel" id="vendedorTelefone" placeholder="(XX) XXXXX-XXXX" required>
+        </div>
+
+        <hr>
+
+        <div class="form-section">
+            <h2>Dados do Contratante</h2>
+            <label for="contratanteNome">Razão Social / Nome Completo:</label>
+            <input type="text" id="contratanteNome" placeholder="Ex: Cliente Digital S/A" required>
+
+            <label for="contratanteCNPJ">CNPJ / CPF:</label>
+            <input type="text" id="contratanteCNPJ" placeholder="Ex: 00.000.000/0001-00 ou 123.456.789-00" required>
+            
+            <label for="contratanteEndereco">Endereço Completo:</label>
+            <input type="text" id="contratanteEndereco" placeholder="Ex: Rua do Cliente, 456, Cidade, Estado" required>
+
+            <label for="contratanteEmail">E-mail:</label>
+            <input type="email" id="contratanteEmail" placeholder="cliente@email.com" required>
+
+            <label for="contratanteTelefone">Telefone:</label>
+            <input type="tel" id="contratanteTelefone" placeholder="(XX) XXXXX-XXXX" required>
+        </div>
+
+        <hr>
+
+        <div class="form-section">
+            <h2>Detalhes do Contrato</h2>
+            
+            <label for="tipoServico">Selecione o Serviço de Programação:</label>
+            <select id="tipoServico" required>
+                <option value="">Selecione um tipo de serviço</option>
+                <option value="web-chat-interativo">Web Chat Interativo</option>
+                <option value="web-site-estatico">Web Site Estático</option>
+                <option value="web-site-multiplas-paginas">Web Site Estático Múltiplas Páginas</option>
+                <option value="web-site-animacoes">Web Site com Animações</option>
+                <option value="web-site-politico">Web Site Político</option>
+                <option value="web-site-midia-digital">Web Site de Mídia Digital (Jornal)</option>
+                <option value="loja-web">Loja Web</option>
+                <option value="portal-capacitacoes">Portal de Capacitações</option>
+                <option value="sist-geracao-documentos-imobiliarios">Sistema de Geração de Documentos Imobiliários</option>
+                <option value="sist-geracao-documentos-clinicas-hospitais">Sistema de Geração de Documentos Clínicas e Hospitais</option>
+                <option value="outro">Outro (Especifique abaixo)</option>
+            </select>
+
+            <div id="campoObservacoesContainer" style="display:none;">
+                <label for="observacoes">Observações (detalhes adicionais ou limitações):</label>
+                <textarea id="observacoes" rows="4" placeholder="Ex: Design do site baseado em modelo específico, sem integração com redes sociais."></textarea>
+            </div>
+            <div style="margin-bottom: 15px;">
+                <input type="checkbox" id="habilitarObservacoes">
+                <label for="habilitarObservacoes" style="display:inline; font-weight: normal; cursor: pointer;">Habilitar campo de observações</label>
+            </div>
+
+            <label for="valorServico">Valor do Contrato (R$):</label>
+            <input type="number" id="valorServico" placeholder="Ex: 5000.00" step="0.01" required>
+
+            <label for="modalidadePagamento">Modalidade de Pagamento:</label>
+            <select id="modalidadePagamento" required>
+                <option value="">Selecione a modalidade</option>
+                <option value="a-vista">À Vista</option>
+                <option value="parcelado">Parcelado</option>
+            </select>
+
+            <div id="formaPagamentoContainer">
+                <label for="formaPagamento">Forma de Pagamento:</label>
+                <select id="formaPagamento">
+                    <option value="">Selecione a forma</option>
+                    <option value="transferencia">Transferência Bancária</option>
+                    <option value="pix">PIX</option>
+                    <option value="especie">Em Espécie</option>
+                </select>
+            </div>
+
+            <div id="parcelamentoContainer">
+                <div class="input-group">
+                    <div>
+                        <label for="numeroParcelas">Número de Parcelas:</label>
+                        <input type="number" id="numeroParcelas" placeholder="Ex: 6" min="1">
+                    </div>
+                    <div>
+                        <label for="valorParcela">Valor da Parcela (R$):</label>
+                        <input type="number" id="valorParcela" placeholder="Ex: 500.00" step="0.01">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button onclick="generatePDF()">Gerar Contrato em PDF</button>
+    </div>
+
+    <div id="contract-template" class="contract-template">
+        <h1 class="contract-title">CONTRATO DE SERVIÇOS DE PROGRAMAÇÃO</h1>
+        
+        <p class="contract-text">
+            Por este instrumento particular, de um lado, como <strong>CONTRATADA</strong>: <strong id="pdfVendedorNome"></strong>, inscrita no CNPJ/CPF sob o nº <span id="pdfVendedorCNPJ"></span>, com endereço em <span id="pdfVendedorEndereco"></span>, e-mail <span id="pdfVendedorEmail"></span> e telefone <span id="pdfVendedorTelefone"></span>, doravante simplesmente denominada **CONTRATADA**.
+        </p>
+        <p class="contract-text">
+            De outro lado, como <strong>CONTRATANTE</strong>: <strong id="pdfContratanteNome"></strong>, inscrita no CNPJ/CPF sob o nº <span id="pdfContratanteCNPJ"></span>, com endereço em <span id="pdfContratanteEndereco"></span>, e-mail <span id="pdfContratanteEmail"></span> e telefone <span id="pdfContratanteTelefone"></span>, doravante simplesmente denominada **CONTRATANTE**.
+        </p>
+        
+        <div class="contract-text">
+            <h2 class="contract-section-title">CLÁUSULA PRIMEIRA - DO OBJETO</h2>
+            <p>O presente contrato tem como objeto a prestação dos serviços de programação, conforme detalhado na "Chave Seletora" abaixo, incluindo os seguintes itens:</p>
+            <p><strong>Serviço Contratado:</strong> <span id="pdfTipoServico"></span></p>
+            <p><strong>Descrição do Serviço:</strong></p>
+            <div id="pdfDescricaoServico" class="contract-text"></div>
+        </div>
+        
+        <div class="contract-text" id="pdfObservacoesContainer" style="display:none;">
+            <h2 class="contract-section-title">CLÁUSULA SEGUNDA - OBSERVAÇÕES E LIMITAÇÕES</h2>
+            <p><strong>Observações Adicionais:</strong> <span id="pdfObservacoes"></span></p>
+        </div>
+
+        <div class="contract-text">
+            <h2 class="contract-section-title">CLÁUSULA TERCEIRA - DO PREÇO E PAGAMENTO</h2>
+            <p>O valor total do contrato é de **R$ <span id="pdfValorServico"></span>**. O pagamento será realizado na modalidade **<span id="pdfModalidadePagamento"></span>**, conforme a seguinte forma:</p>
+            <p id="pdfFormaPagamento"></p>
+        </div>
+
+        <p class="contract-text">E, por estarem justos e contratados, assinam o presente em 02 (duas) vias de igual teor e forma.</p>
+        
+        <p class="contract-text" style="text-align: center;"><strong>Data:</strong> <span id="pdfDataContrato"></span></p>
+        
+        <div class="signature-section">
+            <div class="signature-line"></div>
+            <p class="signature-label">CONTRATADA: <span id="pdfVendedorNomeAssinatura"></span></p>
+        </div>
+
+        <div class="signature-section">
+            <div class="signature-line"></div>
+            <p class="signature-label">CONTRATANTE: <span id="pdfContratanteNomeAssinatura"></span></p>
+        </div>
+
+    </div>
+
+    <script>
+        const servicosDetalhes = {
+
+           "web-chat-interativo": "Desenvolvimento de web chat interativo, que possibilita a comunicação em tempo real e a interatividade com o usuário. Com relação a pontos chaves e respostas chaves",
+            "web-site-estatico": "Desenvolvimento de um site estático, contendo até 3 (cinco) páginas. Esse produto web não contempla na sua estrutura funcionalidades dinâmicas, banco de dados, painel de controle ou área de login. O serviço inclui design responsivo.",
+            "web-site-multiplas-paginas": "Desenvolvimento de um site com múltiplas páginas e estrutura navegacional complexa. O produto web envolve funcionalidades em JavaScript.",
+            "web-site-animacoes": "Desenvolvimento de um site dinâmico e interativo com animações visuais (slides, fotos e vídeos), utilizando tecnologias como CSS e JavaScript. O foco do serviço é a estética visual do produto web.",
+            "web-site-politico": "Desenvolvimento de um site com foco em campanhas políticas, incluindo seções como biografia, propostas, notícias e eventos, com design otimizado para a comunicação com o público. O modelo do web site político contratado está dependente de manutenções diárias, semanais, mensais ou anuais que precisam ser observadas no contrato.",
+            "web-site-midia-digital": "Desenvolvimento de um portal de notícias com um sistema de publicação e categorização de artigos (estilo jornal). O modelo da mídia digital contratada está dependente de manutenções diárias, semanais, mensais ou anuais que precisam ser observadas no contrato.",
+            "loja-web": "Desenvolvimento de uma loja virtual (estática sem necessidade de login ou cadastramento de usuário). O modelo de loja contratada está dependente de manutenções diárias, semanais, mensais ou anuais que precisam ser observadas no contrato.",
+            "portal-capacitacoes": "Desenvolvimento de um portal de Ensino a Distância (EAD), área para visualização de materiais de curso (vídeos, PDFs) e emissão de certificados. O modelo web sistema contratado está dependente de manutenções diárias, semanais, mensais ou anuais que precisam ser observadas no contrato.",
+            "sist-geracao-documentos-imobiliarios": "Desenvolvimento de um sistema web para geração automatizada de documentos imobiliários (contratos, procurações, propostas) a partir de templates pré-definidos. O sistema terá campos dinâmicos para preenchimento dos dados do cliente e do imóvel. O modelo web sistema contratado está dependente de manutenções diárias, semanais, mensais ou anuais que precisam ser observadas no contrato.",
+            "sist-geracao-documentos-clinicas-hospitais": "Desenvolvimento de um sistema web para geração automatizada de documentos para clínicas e hospitais (atestados, laudos, receitas). O modelo web sistema contratado está dependente de manutenções diárias, semanais, mensais ou anuais que precisam ser observadas no contrato.",
+            "outro": "Desenvolvimento de um serviço de programação personalizado. A descrição detalhada do serviço será fornecida no campo de observações adicionais."
+
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const habilitarObservacoesCheckbox = document.getElementById('habilitarObservacoes');
+            const campoObservacoesContainer = document.getElementById('campoObservacoesContainer');
+            
+            habilitarObservacoesCheckbox.addEventListener('change', () => {
+                campoObservacoesContainer.style.display = habilitarObservacoesCheckbox.checked ? 'block' : 'none';
+            });
+            
+            const modalidadePagamentoSelect = document.getElementById('modalidadePagamento');
+            const formaPagamentoContainer = document.getElementById('formaPagamentoContainer');
+            const parcelamentoContainer = document.getElementById('parcelamentoContainer');
+            
+            modalidadePagamentoSelect.addEventListener('change', () => {
+                const selectedValue = modalidadePagamentoSelect.value;
+                
+                formaPagamentoContainer.style.display = 'none';
+                parcelamentoContainer.style.display = 'none';
+
+                if (selectedValue === 'a-vista') {
+                    formaPagamentoContainer.style.display = 'block';
+                } else if (selectedValue === 'parcelado') {
+                    parcelamentoContainer.style.display = 'block';
+                }
+            });
+        });
+
+        async function generatePDF() {
+            const vendedorNome = document.getElementById('vendedorNome').value;
+            const vendedorCNPJ = document.getElementById('vendedorCNPJ').value;
+            const vendedorEndereco = document.getElementById('vendedorEndereco').value;
+            const vendedorEmail = document.getElementById('vendedorEmail').value;
+            const vendedorTelefone = document.getElementById('vendedorTelefone').value;
+            
+            const contratanteNome = document.getElementById('contratanteNome').value;
+            const contratanteCNPJ = document.getElementById('contratanteCNPJ').value;
+            const contratanteEndereco = document.getElementById('contratanteEndereco').value;
+            const contratanteEmail = document.getElementById('contratanteEmail').value;
+            const contratanteTelefone = document.getElementById('contratanteTelefone').value;
+            
+            const tipoServico = document.getElementById('tipoServico').value;
+            const observacoes = document.getElementById('observacoes').value;
+            const habilitarObservacoes = document.getElementById('habilitarObservacoes').checked;
+            
+            const valorServico = document.getElementById('valorServico').value;
+            const modalidadePagamento = document.getElementById('modalidadePagamento').value;
+            const formaPagamento = document.getElementById('formaPagamento').value;
+            
+            const numeroParcelas = document.getElementById('numeroParcelas').value;
+            const valorParcela = document.getElementById('valorParcela').value;
+
+            if (!vendedorNome || !vendedorCNPJ || !contratanteNome || !contratanteCNPJ || !tipoServico || !valorServico || !modalidadePagamento) {
+                alert("Por favor, preencha todos os campos obrigatórios.");
+                return;
+            }
+
+            if (modalidadePagamento === 'a-vista' && !formaPagamento) {
+                alert("Por favor, selecione a forma de pagamento.");
+                return;
+            } else if (modalidadePagamento === 'parcelado' && (!numeroParcelas || !valorParcela)) {
+                alert("Por favor, preencha o número e o valor das parcelas.");
+                return;
+            }
+
+            document.getElementById('pdfVendedorNome').textContent = vendedorNome;
+            document.getElementById('pdfVendedorCNPJ').textContent = vendedorCNPJ;
+            document.getElementById('pdfVendedorEndereco').textContent = vendedorEndereco;
+            document.getElementById('pdfVendedorEmail').textContent = vendedorEmail;
+            document.getElementById('pdfVendedorTelefone').textContent = vendedorTelefone;
+
+            document.getElementById('pdfContratanteNome').textContent = contratanteNome;
+            document.getElementById('pdfContratanteCNPJ').textContent = contratanteCNPJ;
+            document.getElementById('pdfContratanteEndereco').textContent = contratanteEndereco;
+            document.getElementById('pdfContratanteEmail').textContent = contratanteEmail;
+            document.getElementById('pdfContratanteTelefone').textContent = contratanteTelefone;
+            
+            document.getElementById('pdfVendedorNomeAssinatura').textContent = vendedorNome;
+            document.getElementById('pdfContratanteNomeAssinatura').textContent = contratanteNome;
+            
+            const dataAtual = new Date().toLocaleDateString('pt-BR');
+            document.getElementById('pdfDataContrato').textContent = dataAtual;
+
+            document.getElementById('pdfTipoServico').textContent = tipoServico;
+            document.getElementById('pdfDescricaoServico').innerHTML = servicosDetalhes[tipoServico] || "Descrição detalhada do serviço não encontrada.";
+
+            const pdfObservacoesContainer = document.getElementById('pdfObservacoesContainer');
+            if (habilitarObservacoes && observacoes) {
+                pdfObservacoesContainer.style.display = 'block';
+                document.getElementById('pdfObservacoes').textContent = observacoes;
+            } else {
+                pdfObservacoesContainer.style.display = 'none';
+            }
+            
+            document.getElementById('pdfValorServico').textContent = parseFloat(valorServico).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            
+            const pdfModalidadePagamentoElement = document.getElementById('pdfModalidadePagamento');
+            const pdfFormaPagamentoElement = document.getElementById('pdfFormaPagamento');
+
+            let modalidadeTexto = "";
+            let formaPagamentoTexto = "";
+
+            if (modalidadePagamento === 'a-vista') {
+                modalidadeTexto = "À Vista";
+                if (formaPagamento === 'transferencia') {
+                    formaPagamentoTexto = "O pagamento será feito por transferência bancária, cujos dados serão informados no ato da transação.";
+                } else if (formaPagamento === 'pix') {
+                    formaPagamentoTexto = "O pagamento será feito por PIX, cujos dados serão informados no ato da transação.";
+                } else if (formaPagamento === 'especie') {
+                    formaPagamentoTexto = "O pagamento será feito em espécie.";
+                }
+            } else if (modalidadePagamento === 'parcelado') {
+                modalidadeTexto = "Parcelado";
+                formaPagamentoTexto = `O pagamento será realizado em **${numeroParcelas}** parcelas de **R$ ${parseFloat(valorParcela).toFixed(2).replace('.', ',')}** cada, com o valor total de **R$ ${parseFloat(valorServico).toFixed(2).replace('.', ',')}**.`;
+            }
+            
+            pdfModalidadePagamentoElement.textContent = modalidadeTexto;
+            pdfFormaPagamentoElement.innerHTML = formaPagamentoTexto;
+
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('p', 'mm', 'a4');
+            const element = document.getElementById('contract-template');
+            
+            element.style.display = 'block';
+
+            try {
+                const canvas = await html2canvas(element, { scale: 2, useCORS: true, logging: true });
+                const imgData = canvas.toDataURL('image/png');
+                const imgWidth = 210;
+                const pageHeight = 297;
+                const imgHeight = canvas.height * imgWidth / canvas.width;
+                let heightLeft = imgHeight;
+                let position = 0;
+
+                doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+
+                while (heightLeft >= 0) {
+                    position = heightLeft - imgHeight;
+                    doc.addPage();
+                    doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
+                }
+
+                doc.save('Contrato_Servicos_Programacao.pdf');
+            } catch (error) {
+                console.error("Erro ao gerar o PDF:", error);
+                alert("Ocorreu um erro ao gerar o PDF. Por favor, tente novamente.");
+            } finally {
+                element.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
