@@ -1,6 +1,6 @@
     // Usuários cadastrados no sistema
     const users = [
-        { username: "jzanoni", password: "180804" },
+        { username: "juliano", password: "180804" },
     ];
 
     // Função de login
