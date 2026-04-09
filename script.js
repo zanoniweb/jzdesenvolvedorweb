@@ -4,7 +4,7 @@
         { username: "zanoni", password: "180804" },
         { username: "juliano", password: "1804" },
         { username: "juliano", password: "1977" },
-          { username: "juliano", password: "180779bb" },
+        { username: "juliano", password: "180779bb" },
     ];
 
     // Função de login
