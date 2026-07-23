@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -32,54 +32,70 @@
         header {
             background: #333;
             color: #fff;
-            padding: 10px 0;
-            display: flex; /* Permite organizar a nav e o h1 em linha */
-            flex-direction: column; /* Padrão para mobile: empilhar */
-            align-items: center; /* Centraliza verticalmente */
-            justify-content: space-between; /* Espaço entre os elementos */
-            text-align: center;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
         }
         
         header h1 {
             font-family: 'Times New Roman', cursive;
-            font-size: 30px;
+            font-size: 28px;
             margin: 0;
-            padding: 10px 0;
+            display: flex;
+            align-items: center;
         }
         
         header h1 img {
-            height: 50px; /* Ajusta a altura da logo */
+            height: 45px;
             width: auto;
-            vertical-align: middle; /* Alinha a imagem com o texto */
             margin-left: 10px;
         }
 
+        /* Botão do Menu Hambúrguer (Mobile) */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 28px;
+            cursor: pointer;
+            padding: 5px 10px;
+        }
+
+        /* Estrutura do Menu */
         nav ul {
             list-style: none;
-            display: flex; /* Para telas maiores */
+            display: flex;
             justify-content: center;
             align-items: center;
             padding: 0;
             margin: 0;
         }
 
-        nav ul a {
+        nav ul li a {
             color: white;
             text-align: center;
-            padding: 14px 16px;
+            padding: 12px 14px;
             text-decoration: none;
             font-size: 16px;
             border: 2px solid transparent;
-            margin: 0 5px;
+            margin: 0 2px;
+            display: block;
             transition: all 0.3s ease;
         }
 
-        nav ul a:hover {
+        nav ul li a:hover {
             background-color: #111;
             border: 2px solid #f00;
         }
         
         /* Estilos para o conteúdo principal */
+        main {
+            padding: 20px;
+        }
+
         h2 {
             font-family: 'Times New Roman', Times, serif;
             font-size: 24px;
@@ -87,16 +103,13 @@
             margin: 20px 0;
         }
         
-        /* Aumentado o espaçamento para melhor leitura */
         p {
             font-family: 'Times New Roman', Times, serif;
             font-size: 18px;
             text-align: center;
-            margin: 10px auto; /* Centraliza parágrafos */
-            max-width: 800px; /* Limita a largura do texto para melhor leitura */
+            margin: 15px auto;
+            max-width: 800px;
         }
-
-        /* Removido o estilo 'img' global para evitar conflitos */
         
         /* Estilos para o rodapé */
         footer {
@@ -110,33 +123,44 @@
         footer a img {
             height: 30px;
             width: auto;
-            margin: 0 10px;
+            margin-top: 10px;
         }
 
-        /* Media Queries para responsividade */
-        @media (min-width: 769px) {
-            header {
-                flex-direction: row; /* Em telas maiores, coloca o menu e logo lado a lado */
-            }
-            header h1 {
-                margin-right: auto; /* Empurra o H1 para a esquerda */
-                margin-left: 20px;
-            }
-            nav {
-                margin-left: auto; /* Empurra o menu para a direita */
-                margin-right: 20px;
-            }
-        }
-        
+        /* Responsividade para Telas Menores e Celulares */
         @media (max-width: 768px) {
-            nav ul {
-                flex-direction: column; /* Em telas menores, o menu fica vertical */
+            header {
+                flex-wrap: wrap;
             }
 
-            nav ul a {
-                margin: 5px 0;
+            .menu-toggle {
+                display: block; /* Exibe o botão no mobile */
             }
-            
+
+            nav {
+                width: 100%;
+                display: none; /* Esconde a nav por padrão no mobile */
+            }
+
+            nav.active {
+                display: block; /* Mostra quando ativado via JavaScript */
+            }
+
+            nav ul {
+                flex-direction: column;
+                width: 100%;
+                padding-top: 10px;
+            }
+
+            nav ul li {
+                width: 100%;
+            }
+
+            nav ul li a {
+                margin: 4px 0;
+                width: 100%;
+                background-color: #222;
+            }
+
             h2 {
                 font-size: 20px;
             }
@@ -146,63 +170,76 @@
             }
         }
     </style>
-
 </head>
 <body>
 
     <header>
-
         <i>
-
-        <h1>Juliano <img src="./img/zanoni.1.png" alt="Logo Juliano Zanoni"></h1>
-        
+            <h1>Juliano <img src="./img/zanoni.1.png" alt="Logo Juliano Zanoni"></h1>
         </i>
 
-        <nav>
+        <!-- Botão Hambúrguer -->
+        <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menu">☰</button>
+
+        <nav id="nav-menu">
             <ul>
-                <a href="contato.html">Contato</a>
-                <a href="index.html">Desenvolvedor</a>
-                <a href="acesso.html">Geração Contrato</a>
-                <a href="projetos.html">Projetos</a>
-                <a href="sobremim.html">Sobre Mim</a>
+                <li><a href="contato.html">Contato</a></li>
+                <li><a href="index.html">Desenvolvedor</a></li>
+                <li><a href="acesso.html">Geração Contrato</a></li>
+                <li><a href="projetos.html">Projetos</a></li>
+                <li><a href="sobremim.html">Sobre Mim</a></li>
             </ul>
         </nav>
     </header>
 
-    <h2>Formações Profissionais:</h2>
+    <main class="container">
+        <h2>Formações Profissionais:</h2>
 
-    <p><strong><b>Formações Técnicas:</b></strong> 
-        Técnico em Química Industrial (INESUL/2009), 
-        Técnico em Segurança do Trabalho (Polivalente/2010).</p>
+        <p><strong>Formações Técnicas:</strong> 
+            Técnico em Química Industrial (INESUL/2009), 
+            Técnico em Segurança do Trabalho (Polivalente/2010).</p>
 
-    <p><strong><b>Graduações:</b></strong> 
-        Bacharelado em Turismo e Hotelaria (UNOPAR/2002), 
-        Licenciatura em História (Faculdade Campos Elísios/2020) e 
-        Engenharia de Software (Anhanguera-Unopar/2026).</p>
-    
-    <p><strong><b>Especializações:</b></strong>
-        Especialista em Cultura Africana (Faculdade Campos Elísios/2021), 
-        Especialista em Direitos Humanos (Faculdade I9 EDUCAÇÃO/2025), 
-        Especialista em Direitos das Mulheres (Faculdade I9 EDUCAÇÃO/2025), 
-        Especialista em Direitos das Pessoas Vulneráveis (Faculdade I9 EDUCAÇÃO/2025),
-        Especialista em Direito Condominal (Faculdade I9 EDUCAÇÃO/2026),
-        Especialista em Docência e Prática do Ensino em História (Faculdade Campos Elísios/2020),
-        Especialista em Educação Multicultural (Faculdade Campos Elísios/2020),
-        Especialista em Gestão e Análise Ambiental (UNOPAR/2004), 
-        Especialista em Gestão Pública (Faculdade São Braz/2016).</p> 
-    
-    <!--    
-
-    <p><strong>Mestrado:</strong>Mestre em Teologia (FAINTE/2024 é um curso eclesiástico, ou seja, não tem titulação acadêmica).</p>
-
-    -->
+        <p><strong>Graduações:</strong> 
+            Bacharelado em Turismo e Hotelaria (UNOPAR/2002), 
+            Licenciatura em História (Faculdade Campos Elísios/2020) e 
+            Engenharia de Software (Anhanguera-Unopar/2026).</p>
+        
+        <p><strong>Especializações:</strong>
+            Especialista em Cultura Africana (Faculdade Campos Elísios/2021), 
+            Especialista em Direitos Humanos (Faculdade I9 EDUCAÇÃO/2025), 
+            Especialista em Direitos Das Mulheres (Faculdade I9 EDUCAÇÃO/2025), 
+            Especialista em Direitos Das Pessoas Vulneráveis (Faculdade I9 EDUCAÇÃO/2025),
+            Especialista em Direito Condominial (Faculdade I9 EDUCAÇÃO/2026),
+            Especialista em Docência e Prática do Ensino em História (Faculdade Campos Elísios/2020),
+            Especialista em Educação Multicultural (Faculdade Campos Elísios/2020),
+            Especialista em Gestão e Análise Ambiental (UNOPAR/2004), 
+            Especialista em Gestão Pública (Faculdade São Braz/2016).</p> 
+        
+        <!-- 
+        <p><strong>Mestrado:</strong> Mestre em Teologia (FAINTE/2024 é um curso eclesiástico, ou seja, não tem titulação acadêmica).</p>
+        -->
+    </main>
 
     <footer>
         <p>© 2025 Web Site Profissional (W. S. P.). Todos os direitos reservados a Juliano.</p>
-        <a href="http://lattes.cnpq.br/8571663525830928">
+        <a href="http://lattes.cnpq.br/8571663525830928" target="_blank" rel="noopener">
             <img src="./img/cnpq.png" alt="Link para o Lattes">
         </a>
     </footer>
 
+    <!-- Script para alternar a exibição do menu no clique -->
+    <script>
+        const menuToggle = document.getElementById('menu-toggle');
+        const navMenu = document.getElementById('nav-menu');
+
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            if (navMenu.classList.contains('active')) {
+                menuToggle.textContent = '✕';
+            } else {
+                menuToggle.textContent = '☰';
+            }
+        });
+    </script>
 </body>
 </html>

@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CONTATO: JULIANO ZANONI</title>
     
     <style>
-       
-         /* Reset básico e estilos gerais */
+        /* Reset básico e estilos gerais */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -22,67 +21,78 @@
             color: #333;
         }
 
-        .container {
-            max-width: 1100px;
-            margin: auto;
-            overflow: hidden;
-            padding: 0 20px;
-        }
-
         /* Estilos para o cabeçalho e menu de navegação */
         header {
             background: #333;
             color: #fff;
-            padding: 10px 0;
-            display: flex; /* Permite organizar a nav e o h1 em linha */
-            flex-direction: column; /* Padrão para mobile: empilhar */
-            align-items: center; /* Centraliza verticalmente */
-            justify-content: space-between; /* Espaço entre os elementos */
-            text-align: center;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
         }
         
         header h1 {
             font-family: 'Times New Roman', cursive;
-            font-size: 30px;
+            font-size: 28px;
             margin: 0;
-            padding: 10px 0;
+            display: flex;
+            align-items: center;
         }
         
         header h1 img {
-            height: 50px; /* Ajusta a altura da logo */
+            height: 45px;
             width: auto;
-            vertical-align: middle; /* Alinha a imagem com o texto */
             margin-left: 10px;
         }
 
+        /* Botão do Menu Hambúrguer (Mobile) */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 28px;
+            cursor: pointer;
+            padding: 5px 10px;
+        }
+
+        /* Estrutura do Menu */
         nav ul {
             list-style: none;
-            display: flex; /* Para telas maiores */
+            display: flex;
             justify-content: center;
             align-items: center;
             padding: 0;
             margin: 0;
         }
 
-        nav ul a {
+        nav ul li a {
             color: white;
             text-align: center;
-            padding: 14px 16px;
+            padding: 12px 14px;
             text-decoration: none;
             font-size: 16px;
             border: 2px solid transparent;
-            margin: 0 5px;
+            margin: 0 2px;
+            display: block;
             transition: all 0.3s ease;
         }
 
-        nav ul a:hover {
+        nav ul li a:hover {
             background-color: #111;
             border: 2px solid #f00;
         }
         
         /* Estilos para o conteúdo principal */
-        h2 {
-            font-size: 24px;
+        main {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        h1.titulo-contato {
+            font-size: 28px;
             text-align: center;
             margin: 20px 0;
         }
@@ -90,11 +100,9 @@
         p {
             font-size: 18px;
             text-align: center;
-            margin: 10px 0;
+            margin: 15px 0;
         }
 
-        /* Removido o estilo 'img' global para evitar conflitos */
-        
         /* Estilos para o rodapé */
         footer {
             text-align: center;
@@ -103,71 +111,90 @@
             font-size: 14px;
             color: #555;
         }
-        
-        footer a img {
-            height: 30px;
-            width: auto;
-            margin: 0 10px;
-        }
 
-        /* Media Queries para responsividade */
-        @media (min-width: 769px) {
-            header {
-                flex-direction: row; /* Em telas maiores, coloca o menu e logo lado a lado */
-            }
-        }
-        
+        /* Responsividade para Telas Menores e Celulares */
         @media (max-width: 768px) {
-            nav ul {
-                flex-direction: column; /* Em telas menores, o menu fica vertical */
+            header {
+                flex-wrap: wrap;
             }
 
-            nav ul a {
-                margin: 5px 0;
+            .menu-toggle {
+                display: block; /* Exibe o botão no mobile */
+            }
+
+            nav {
+                width: 100%;
+                display: none; /* Esconde a nav por padrão no mobile */
+            }
+
+            nav.active {
+                display: block; /* Mostra quando ativado via JavaScript */
+            }
+
+            nav ul {
+                flex-direction: column;
+                width: 100%;
+                padding-top: 10px;
+            }
+
+            nav ul li {
+                width: 100%;
+            }
+
+            nav ul li a {
+                margin: 4px 0;
+                width: 100%;
+                background-color: #222;
             }
         }
-        </style>
-
+    </style>
 </head>
-
-
-<header>
- 
-<i>
-
-    <h1>Juliano <img src="./img/zanoni.1.png"></img></h1>
-
-</i>
-    
-
-    <nav>
-         <ul>
-                 <a href="index.html">Desenvolvedor</a>
-                 <a href="formacao.html">Formações Profissionais</a>
-                 <a href="acesso.html">Geração Contrato</a> 
-                 <a href="projetos.html">Projetos</a> 
-                 <a href="sobremim.html">Sobre Mim</a>
-         </ul>
-     </nav>  
-     
- </header>
-
 <body>
 
-    <center>
+    <header>
+        <i>
+            <h1>Juliano <img src="./img/zanoni.1.png" alt="Logo Juliano Zanoni"></h1>
+        </i>
 
-    <h1>Meios de Contato:</h1>
+        <!-- Botão Hambúrguer -->
+        <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menu">☰</button>
 
-    </center>
+        <nav id="nav-menu">
+            <ul>
+                <li><a href="index.html">Desenvolvedor</a></li>
+                <li><a href="formacao.html">Formações Profissionais</a></li>
+                <li><a href="acesso.html">Geração Contrato</a></li>
+                <li><a href="projetos.html">Projetos</a></li>
+                <li><a href="sobremim.html">Sobre Mim</a></li>
+            </ul>
+        </nav> 
+    </header>
 
-    <p>Observo que a minha rotina de programção é desenvolvida em horários que não intercalam com a minha rotina pública. Nesse contexto seguem os contatos e os horários para retorno.</p>
-    <p>Mensagens encaminhadas para o e-mail julianozanoni2014@gmail.com serão respondodidos em até 24 horas.</p> 
-    <p>Mensagens encaminhadas para o wtas (43) 98863-5712 serão respondidas após as 17:00 horas.</p>
+    <main>
+        <h1 class="titulo-contato">Meios de Contato:</h1>
+
+        <p>Observo que a minha rotina de programação é desenvolvida em horários que não intercalam com a minha rotina pública. Nesse contexto seguem os contatos e os horários para retorno.</p>
+        <p>Mensagens encaminhadas para o e-mail <strong>julianozanoni2014@gmail.com</strong> serão respondidas em até 24 horas.</p> 
+        <p>Mensagens encaminhadas para o WhatsApp <strong>(43) 98863-5712</strong> serão respondidas após as 17:00 horas.</p>
+    </main>
 
     <footer>
-    <alt>© 2025 Web Site Profissional (W. S. P.). Todos os direitos reservados a Juliano.</alt><br>
+        <p>© 2025 Web Site Profissional (W. S. P.). Todos os direitos reservados a Juliano.</p>
     </footer>
 
+    <!-- Script para alternar a exibição do menu no clique -->
+    <script>
+        const menuToggle = document.getElementById('menu-toggle');
+        const navMenu = document.getElementById('nav-menu');
 
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            if (navMenu.classList.contains('active')) {
+                menuToggle.textContent = '✕';
+            } else {
+                menuToggle.textContent = '☰';
+            }
+        });
+    </script>
 </body>
 </html>

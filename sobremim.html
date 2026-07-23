@@ -1,12 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SOBRE MIM: JULIANO ZANONI</title>
     
     <style>
-       
         /* Reset básico e estilos gerais */
         * {
             box-sizing: border-box;
@@ -33,67 +32,85 @@
         header {
             background: #333;
             color: #fff;
-            padding: 10px 0;
-            display: flex; /* Permite organizar a nav e o h1 em linha */
-            flex-direction: column; /* Padrão para mobile: empilhar */
-            align-items: center; /* Centraliza verticalmente */
-            justify-content: space-between; /* Espaço entre os elementos */
-            text-align: center;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
         }
         
         header h1 {
             font-family: 'Times New Roman', cursive;
-            font-size: 30px;
+            font-size: 28px;
             margin: 0;
-            padding: 10px 0;
+            display: flex;
+            align-items: center;
         }
         
         header h1 img {
-            height: 50px; /* Ajusta a altura da logo */
+            height: 45px;
             width: auto;
-            vertical-align: middle; /* Alinha a imagem com o texto */
             margin-left: 10px;
         }
 
+        /* Botão do Menu Hambúrguer (Mobile) */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 28px;
+            cursor: pointer;
+            padding: 5px 10px;
+        }
+
+        /* Estrutura do Menu */
         nav ul {
             list-style: none;
-            display: flex; /* Para telas maiores */
+            display: flex;
             justify-content: center;
             align-items: center;
             padding: 0;
             margin: 0;
         }
 
-        nav ul a {
+        nav ul li a {
             color: white;
             text-align: center;
-            padding: 14px 16px;
+            padding: 12px 14px;
             text-decoration: none;
             font-size: 16px;
             border: 2px solid transparent;
-            margin: 0 5px;
+            margin: 0 2px;
+            display: block;
             transition: all 0.3s ease;
         }
 
-        nav ul a:hover {
+        nav ul li a:hover {
             background-color: #111;
             border: 2px solid #f00;
         }
         
         /* Estilos para o conteúdo principal */
+        main {
+            padding: 20px 0;
+        }
+
         h2 {
+            font-family: 'Times New Roman', Times, serif;
             font-size: 24px;
             text-align: center;
             margin: 20px 0;
+            color: #333;
         }
 
         p {
+            font-family: 'Times New Roman', Times, serif;
             font-size: 18px;
             text-align: center;
-            margin: 10px 0;
+            margin: 15px auto;
+            max-width: 850px;
         }
-
-        /* Removido o estilo 'img' global para evitar conflitos */
         
         /* Estilos para o rodapé */
         footer {
@@ -107,67 +124,98 @@
         footer a img {
             height: 30px;
             width: auto;
-            margin: 0 10px;
+            margin-top: 10px;
         }
 
-        /* Media Queries para responsividade */
-        @media (min-width: 769px) {
-            header {
-                flex-direction: row; /* Em telas maiores, coloca o menu e logo lado a lado */
-            }
-        }
-        
+        /* Responsividade para Telas Menores e Celulares */
         @media (max-width: 768px) {
-            nav ul {
-                flex-direction: column; /* Em telas menores, o menu fica vertical */
+            header {
+                flex-wrap: wrap;
             }
 
-            nav ul a {
-                margin: 5px 0;
+            .menu-toggle {
+                display: block; /* Exibe o botão no celular */
+            }
+
+            nav {
+                width: 100%;
+                display: none; /* Esconde a navegação por padrão no celular */
+            }
+
+            nav.active {
+                display: block; /* Mostra o menu quando ativado via JavaScript */
+            }
+
+            nav ul {
+                flex-direction: column;
+                width: 100%;
+                padding-top: 10px;
+            }
+
+            nav ul li {
+                width: 100%;
+            }
+
+            nav ul li a {
+                margin: 4px 0;
+                width: 100%;
+                background-color: #222;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+            
+            p {
+                font-size: 16px;
             }
         }
-
     </style>
-
 </head>
-
-    <header>
-
-    <i>
-
-    <h1>Juliano <img src="./img/zanoni.1.png"></img></h1>
-
-    </i>
-
-    <nav>
-         <ul>
-                 <a href="contato.html">Contato</a>
-                 <a href="index.html">Desenvolvedor</a>
-                 <a href="formacao.html">Formações Profissionais</a>
-                 <a href="acesso.html">Geração Contrato</a>
-                 <a href="projetos.html">Projetos</a> 
-         </ul>
-     </nav>  
-    
-     
- </header>
-
 <body>
 
-    <h2>Sobre Mim:</h2>
+    <header>
+        <i>
+            <h1>Juliano <img src="./img/zanoni.1.png" alt="Logo Juliano Zanoni"></h1>
+        </i>
 
-    
-    <p>Nascido em 18 de Julho de 1977 em Lodnrina/Pr, casado e atualmente sou servidor público municipal de carreira desde 08 de maio de 2012, mas paralelamente trabalho também no planejamento, desenvolvimento e execução de web projetos. Nas horas vagas atuo como escritor, nas minhas áreas profissionais intercalando também com os meus hobys que são a filatelia e a numismática.</p>
+        <!-- Botão Hambúrguer -->
+        <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menu">☰</button>
 
-    
+        <nav id="nav-menu">
+            <ul>
+                <li><a href="contato.html">Contato</a></li>
+                <li><a href="index.html">Desenvolvedor</a></li>
+                <li><a href="formacao.html">Formações Profissionais</a></li>
+                <li><a href="acesso.html">Geração Contrato</a></li>
+                <li><a href="projetos.html">Projetos</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h2>Sobre Mim:</h2>
+
+        <p>Nascido em 18 de Julho de 1977 em Londrina/Pr, casado e atualmente sou servidor público municipal de carreira desde 08 de maio de 2012, mas paralelamente trabalho também no planejamento, desenvolvimento e execução de web projetos. Nas horas vagas atuo como escritor, nas minhas áreas profissionais intercalando também com os meus hobbies que são a filatelia e a numismática.</p>
+    </main>
 
     <footer>
-
-        © 2025 Web Site Profissional (W. S. P.). Todos os direitos reservados a Juliano.
-            
+        <p>© 2025 Web Site Profissional (W. S. P.). Todos os direitos reservados a Juliano.</p>
     </footer>
 
+    <!-- Script para alternar a exibição do menu no celular -->
+    <script>
+        const menuToggle = document.getElementById('menu-toggle');
+        const navMenu = document.getElementById('nav-menu');
 
-</i>
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            if (navMenu.classList.contains('active')) {
+                menuToggle.textContent = '✕';
+            } else {
+                menuToggle.textContent = '☰';
+            }
+        });
+    </script>
 </body>
 </html>
